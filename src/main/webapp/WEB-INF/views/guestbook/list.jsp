@@ -18,12 +18,11 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="guestbook">
-				<form action="${pageContext.servletContext.contextPath }/guestbook" method="post">
-					<input type="hidden" name="a" value="Add">
+				<form action="${pageContext.servletContext.contextPath }/guestbook/add" method="post">
 					<table>
 						<tr>
-							<td>이름</td><td><input type="text" name="writer"></td>
-							<td>비밀번호</td><td><input type="password" name="passwd"></td>
+							<td>이름</td><td><input type="text" name="name"></td>
+							<td>비밀번호</td><td><input type="password" name="password"></td>
 						</tr>
 						<tr>
 							<td colspan=4><textarea name="contents" id="content"></textarea></td>
@@ -36,13 +35,14 @@
 				<ul>
 					<li>
 						<table>
-							<c:forEach items="${requestScope.list }" var="vo">
+							<c:set var="count" value="${fn:length(list)}"></c:set>
+							<c:forEach items="${requestScope.list }" var="vo" varStatus="status">
 								<tr>
-									<td>[${vo.no }]</td>
-									<td>${vo.writer }</td>
+									<td>[${count - status.index}]</td>
+									<td>${vo.name }</td>
 									<td>${vo.contents }</td>
-									<td><fmt:formatDate value="${vo.regDate }"/></td>
-									<td><a href="${pageContext.servletContext.contextPath }/guestbook?a=DeleteForm&no=${vo.no }">삭제</a></td>
+									<td>${vo.regDate }</td>
+									<td><a href="${pageContext.servletContext.contextPath }/guestbook/delete?no=${vo.no}">삭제</a></td>
 								</tr>
 								<tr>
 									<td colspan=4>${fn:replace(vo.contents, newLine, '<br/>')}</td>

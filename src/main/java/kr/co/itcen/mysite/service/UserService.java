@@ -19,4 +19,7 @@ public class UserService {
 	public UserVo getUser(UserVo vo) {
 		return userDao.get(vo);
 	}
+	public void update(UserVo vo) {
+		userDao.update(vo);
+	}
 }
