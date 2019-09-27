@@ -15,7 +15,6 @@ public class UserService {
 	public void join(UserVo vo) {
 		userDao.insert(vo);
 	}
-
 	public UserVo getUser(UserVo vo) {
 		return userDao.get(vo);
 	}

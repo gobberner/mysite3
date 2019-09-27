@@ -16,7 +16,9 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${pageContext.servletContext.contextPath }/board" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+					<input type="hidden" name="a" value="list"/>
+					<input type="text" id="kwd" name="kwd" value=""/>
+<%-- 					<input type="text" name="page" value="${pagenation.page }"/> --%>
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -27,22 +29,27 @@
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>&nbsp;</th>
-					</tr>	
-					<c:forEach items ='${list }' var='vo' >			
+					</tr>
+					<c:set var="count" value='${fn:length(list) }'/>	
+					<c:forEach items ='${list }' var='vo' varStatus='status' >			
 					<tr>				
-						<td>${vo.no}</td>
-						<%-- <td style='padding-left:${50*vo.depth}px'><img src = "${pageContext.servletContext.contextPath}/assets/images/reply.png"/><a href="${pageContext.servletContext.contextPath }/board?">${vo.no}</a></td> --%>
-						<td><a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}&userNo=${vo.userNo}">${vo.title}</a></td>
-						<form  action="" method="post">
-							<input type="hidden" id="title" name="title" value="${vo.title}">
-							<input type="hidden" id="context" name="context" value="${vo.context}">
-							<input type="hidden" id="no" name="no" value="${vo.no}">
-							<input type="hidden" id="userNo" name="userNo" value="${vo.userNo}">
-						</form>
+						<td>${(count-status.index) }</td>
 						
+						<td style='padding-left:${50*vo.depth}px'>
+						<c:if test ="${vo.o_no ne 1 }">
+							<img src = "${pageContext.servletContext.contextPath}/assets/images/reply.png"/>
+						</c:if>
+						<c:choose>
+							<c:when test="${vo.status eq 'delete' }">
+								삭제된 글입니다.
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}&userNo=${vo.userNo}">${vo.title}</a></td>
+							</c:otherwise>
+						</c:choose>
 						<td>${vo.name }</td>
 						<td>${vo.hit}</td>
-						<td>${vo.regDate}</td>
+						<td>${vo.regDate}</td>						
 						<td><a href="${pageContext.servletContext.contextPath }/board?a=delete&no=${vo.no}" class="del">삭제</a></td>
 					</tr>
 					</c:forEach>
@@ -51,15 +58,25 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+						<c:if test="${pagination.prev }">
+							<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${param.keyword }&page=${pagination.startPage - 1 }">◀</a></li>
+						</c:if>
+						<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="pg">
+							<c:choose>
+								<c:when test="${pg eq pagination.currentPage }">
+									<li class="selected">${pg }</li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${param.keyword }&page=${pg }" >${pg }</a></li>
+								</c:otherwise>
+							</c:choose>
+							
+						</c:forEach>
+						<c:if test="${pagination.next }">
+							<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${param.keyword }&page=${pagination.endPage + 1 }">▶</a></li>
+						</c:if>
 					</ul>
-				</div>					
+				</div>			
 				<!-- pager 추가 -->
 				
 				<div class="bottom">

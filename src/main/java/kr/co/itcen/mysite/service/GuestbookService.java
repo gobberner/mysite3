@@ -18,9 +18,7 @@ public class GuestbookService {
 	}
 	public List<GuestbookVo> getList() {
 		List<GuestbookVo> list = guestbookDao.getList();
-		
 		return list;
-	
 	}
 	public void insert(GuestbookVo vo) {
 		guestbookDao.insert(vo);

@@ -3,7 +3,7 @@ package kr.co.itcen.mysite.vo;
 public class BoardVo {
 	private Long no;
 	private String title;
-	private String context;
+	private String contents;
 	private Long hit;
 	private String regDate;
 	private Long g_no;
@@ -21,6 +21,12 @@ public class BoardVo {
 	public Long getNo() {
 		return no;
 	}
+	public String getContents() {
+		return contents;
+	}
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
 	public void setNo(Long no) {
 		this.no = no;
 	}
@@ -29,12 +35,6 @@ public class BoardVo {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public String getContext() {
-		return context;
-	}
-	public void setContext(String context) {
-		this.context = context;
 	}
 	public Long getHit() {
 		return hit;
@@ -80,13 +80,8 @@ public class BoardVo {
 	}
 	@Override
 	public String toString() {
-		return "BoardVo [no=" + no + ", title=" + title + ", context=" + context + ", hit=" + hit + ", regDate="
+		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
 				+ regDate + ", g_no=" + g_no + ", o_no=" + o_no + ", depth=" + depth + ", userNo=" + userNo + ", name="
 				+ name + ", status=" + status + "]";
 	}
-	
-
-	
-	
-	
 }
